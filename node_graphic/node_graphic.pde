@@ -13,7 +13,25 @@ void setup() {
 void draw() {
    background(0);
    worldNode.render();
+   doDebugInput();
 }
+
+  
+  ////////////////////////////////////////////////
+
+  void doDebugInput()
+  {
+    if (keyPressed) {
+      
+      if (key == 'c') {
+        worldNode.shedChildren();
+      }
+      if (key == 'v') {
+        worldNode.absorbChildren();
+      }
+
+    }
+  }
 
 
 DataNode loadWorldNode()

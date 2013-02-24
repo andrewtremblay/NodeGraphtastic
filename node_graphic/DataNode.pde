@@ -66,8 +66,6 @@ class DataNode
       renderChildren();
       ellipse(currentXpos, currentYpos, currentRadius, currentRadius);
         //updateCurrentVars();
-
-       doDebugInput();
   }
   
   //change
@@ -134,24 +132,4 @@ class DataNode
      }
   }
 
-
-  
-  
-  
-  
-  ////////////////////////////////////////////////
-
-  void doDebugInput()
-  {
-    if (keyPressed) {
-      
-      if (key == 'c') {
-        shedChildren();
-      }
-      if (key == 'v') {
-        absorbChildren();
-      }
-
-    }
-  }
 }
