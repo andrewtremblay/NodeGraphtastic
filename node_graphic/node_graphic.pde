@@ -1,5 +1,7 @@
 int WIDTH = 500;
 int HEIGHT = 500;
+int mouseState = 0;
+boolean interactLocked = false;
 
 DataNode worldNode;
 
@@ -8,31 +10,35 @@ void setup() {
   background(0);
   stroke(255);
   worldNode = loadWorldNode();
+  
+  debugSetupStuff();
 }
 
 void draw() {
    background(0);
    worldNode.render();
-   doDebugInput();
+   worldNode.doMouseInput(mouseX, mouseY, mouseState);
+   
+   debugDrawStuff();
+}
+
+void mousePressed() {  
+  mouseState = 1;
+}
+
+void mouseDragged() {
+  if((mouseX <= 0 || mouseY <= 0) || (mouseX >= WIDTH || mouseY >= HEIGHT)){
+      mouseState = 0;      //out of bounds, reset state
+      interactLocked = false;
+  }
+}
+
+void mouseReleased() {
+  mouseState = 0;
+  interactLocked = false;
 }
 
   
-  ////////////////////////////////////////////////
-
-  void doDebugInput()
-  {
-    if (keyPressed) {
-      
-      if (key == 'c') {
-        worldNode.shedChildren();
-      }
-      if (key == 'v') {
-        worldNode.absorbChildren();
-      }
-
-    }
-  }
-
 
 DataNode loadWorldNode()
 {
