@@ -69,6 +69,38 @@ class DataNode
   }
   
   //change
+  void doMouseInput(int mY, int mX, int mState)
+  {
+    //hierarchy this out to better control the child behavior, block passing of click to children
+    if(interactLocked){
+      //we've done something already. Do not pass go
+    }
+    else
+    {
+    if(pointCollides(mY, mY) && mState != 0){
+        toggleChildren();
+        interactLocked = true;
+    }
+    
+    if(children != null && !interactLocked){
+       for(int i = 0; i < children.length; i++)
+       {
+        children[i].doMouseInput(mY, mX, mState);
+       } 
+     }
+    }
+  }
+
+  boolean pointCollides(float pX, float pY)
+  {   //thank god we got circles
+      float dx = pX - currentXpos;
+      float dy = pX - currentYpos;
+      float distance = sqrt(dx*dx + dy*dy);
+      return (distance < currentRadius);  
+  }
+  
+  
+  
   void setCurrent(float currX, float currY, float currRad)
   {
     currentXpos = currX;
