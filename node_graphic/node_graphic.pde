@@ -22,6 +22,8 @@ void draw() {
    debugDrawStuff();
 }
 
+
+//mouse interaction 
 void mousePressed() {  
   mouseState = 1;
 }
@@ -39,7 +41,7 @@ void mouseReleased() {
 }
 
   
-
+//basic world loading
 DataNode loadWorldNode()
 {
   DataNode world = new DataNode();
