@@ -131,6 +131,19 @@ class DataNode
     decay = minDecay;
   }  
   
+  void toggleNode()
+  { 
+    if(collapsed)
+    {
+      expandNode();
+    }
+    else
+    {
+      collapseNode();
+    }
+  }  
+
+  
   //Child management 
   void renderChildren()
   {
@@ -163,5 +176,18 @@ class DataNode
        }
      }
   }
+  
+  void toggleChildren()
+  { 
+    if(collapsed)
+    {
+      absorbChildren();
+    }
+    else
+    {
+      shedChildren();
+    }
+  }  
+
 
 }
