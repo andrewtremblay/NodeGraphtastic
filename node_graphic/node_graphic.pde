@@ -50,7 +50,7 @@ DataNode loadWorldNode()
   DataNode secondChild = new DataNode(world, WIDTH*3/4, HEIGHT*3/4, 75); 
   DataNode thirdChild = new DataNode(world, WIDTH*3/4, HEIGHT/4, 75); 
   DataNode fourthChild = new DataNode(world, WIDTH/4, HEIGHT*3/4, 75); 
-  DataNode fourthFirstChild = new DataNode(fourthChild, WIDTH/8, HEIGHT*3/8, 45); 
+  DataNode fourthFirstChild = new DataNode(fourthChild, WIDTH*3/8, HEIGHT*7/8, 45); 
   fourthChild.children = new DataNode[1];
   fourthChild.children[0] = fourthFirstChild;
 

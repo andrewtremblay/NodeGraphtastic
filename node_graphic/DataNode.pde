@@ -77,19 +77,56 @@ class DataNode
     }
     else
     {
-      if(pointCollides(mX, mY) && mState != 0){ //mouse down
+      if(pointCollides(mX, mY) && mState != 0){ //mouse down, time to act
+        if(hasSomeChildren()){
           toggleChildren();
           interactLocked = true;
+        }else
+        {
+          //we're leaf, so collapse?
+          collapseNode();
+        }
       }
-      //if the parent ate the mouse click, don't pass to the children
-      if(!interactLocked && children != null){
+      else       
+      {
+        //if the parent didn't eat the mouse click, pass the click to the children
+        if(children != null)
+        {
          for(int i = 0; i < children.length; i++)
          {
           children[i].doMouseInput(mX, mY, mState);
          } 
-       }
+        }
+      }
     }
   }
+  
+  boolean hasSomeChildren()
+  {
+    boolean toRet = false;
+    if(children != null)
+    {
+      toRet = children.length > 0;
+    }
+    return toRet;
+  }
+
+  boolean allChildrenCollapsed()
+  {
+    boolean toRet = true;
+    if(children != null)
+    {
+       for(int i = 0; i < children.length; i++)
+       {
+         if(!children[i].collapsed){
+            toRet = false;
+            break;
+          }
+       } 
+    }
+    return toRet;
+  }
+
 
   boolean pointCollides(float pX, float pY)
   {   //thank god we got circles
@@ -120,14 +157,14 @@ class DataNode
   void collapseNode()
   {
     collapsed = true;
-        setDest(collapsedXpos, collapsedYpos, collapsedRadius);
+    setDest(collapsedXpos, collapsedYpos, collapsedRadius);
     decay = minDecay;
   }
 
   void expandNode()
   { 
     collapsed = false;
-        setDest(expandedXpos, expandedYpos, expandedRadius);
+    setDest(expandedXpos, expandedYpos, expandedRadius);
     decay = minDecay;
   }  
   
@@ -142,6 +179,22 @@ class DataNode
       collapseNode();
     }
   }  
+  
+  //find variables with respect to parent state
+  float collapsedXpos()
+  {
+    return collapsedXpos;
+  }
+
+  float collapsedYpos()
+  {
+    return collapsedYpos;
+  }
+
+  float collapsedRadius()
+  {
+    return collapsedRadius;
+  }
 
   
   //Child management 
