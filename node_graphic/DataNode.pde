@@ -10,7 +10,7 @@ class DataNode
   float maxDecay = 25; //too big and things get weird
   float deltaDecay = 5;
   
-  boolean collapsed = true;
+  boolean collapsed = false;
   DataNode[] children;
   DataNode parent;
   
@@ -64,8 +64,15 @@ class DataNode
         currentRadius = currentRadius + (destRadius - currentRadius)/decay;
         decay = decay < maxDecay ? decay + deltaDecay : maxDecay;
       renderChildren();
+      if(collapsed)
+      {
+        fill(100);
+      }
+      else
+      {
+        fill(0);
+      }
       ellipse(currentXpos, currentYpos, currentRadius, currentRadius);
-        //updateCurrentVars();
   }
   
   //change
@@ -82,7 +89,7 @@ class DataNode
           interactLocked = true;
       }
       //if the parent ate the mouse click, don't pass to the children
-      if(!interactLocked && children != null){
+      if(!interactLocked && hasChildNodes()){
          for(int i = 0; i < children.length; i++)
          {
           children[i].doMouseInput(mX, mY, mState);
@@ -99,7 +106,10 @@ class DataNode
       return (distance < currentRadius);  
   }
   
-  
+  boolean hasChildNodes()
+  {
+    return (children != null)  && (children.length != 0);
+  }
   
   void setCurrent(float currX, float currY, float currRad)
   {
@@ -120,7 +130,13 @@ class DataNode
   void collapseNode()
   {
     collapsed = true;
+    if(hasChildNodes()){
         setDest(collapsedXpos, collapsedYpos, collapsedRadius);
+    }
+    else
+    {
+      
+    }
     decay = minDecay;
   }
 
@@ -157,8 +173,8 @@ class DataNode
   
   void absorbChildren()
   {
-      expandNode();
-     if(children != null){
+     if(hasChildNodes()){
+       expandNode();
        for(int i = 0; i < children.length; i++)
        {
          children[i].collapseNode();
@@ -168,8 +184,8 @@ class DataNode
 
   void shedChildren()
   {
-     collapseNode();
-     if(children != null){
+     if(hasChildNodes()){
+       collapseNode();
        for(int i = 0; i < children.length; i++)
        {
          children[i].expandNode();
